@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+    {% include "navbar.html" %}
+{% endblock %}
+
+{% block page_content %}
+    {% include "form.html" %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Results</h1>
+            <p class="lead">
+                City: {{ cities[selected_city]|title }}<br>
+                Month: {{ months[selected_month] }}<br>
+                Day of week: {{ days_of_week[selected_day] }}
+            </p>
+            <a href="/raw-data/{{ selected_city }}/{{ selected_month }}/{{ selected_day }}">View raw data</a>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-6">
+            <h2>Popular times of travel</h2>
+            <table class="table table-hover stats-table">
+                <col width="50%">
+                <col width="50%">
+                <tbody>
+                    <tr>
+                        <th scope="row">Most Common Month</th>
+                        <td>{{ time_stats.most_common_month }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Most Common Day of Week</th>
+                        <td>{{ time_stats.most_common_day_of_week}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Most Common Start Hour of Day</th>
+                        <td>{{ time_stats.most_common_start_hour }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="text-info pull-right"><strong>This took {{ operation_time.time|float_formatter }} seconds.</strong></p>
+        </div>
+        <div class="col-lg-6">
+            <h2>Popular stations and trip</h2>
+            <table class="table table-hover stats-table">
+                <col width="50%">
+                <col width="50%" align="right">
+                <tbody>
+                <tr>
+                    <th scope="row">Most Common Start Station</th>
+                    <td>{{ station_stats.most_common_start_station }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Most Common End Station</th>
+                    <td>{{ station_stats.most_common_end_station }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Most Common Start to End Station</th>
+                    {% set stations = station_stats.most_common_start_end_stations.split(' -> ') %}
+                    <td><strong>From</strong> {{ stations[0] }}<br><strong>to</strong> {{ stations[1] }}</td>
+                </tr>
+                </tbody>
+            </table>
+            <p class="text-info pull-right"><strong>This took {{ operation_time.station|float_formatter }} seconds.</strong></p>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-6">
+            <h2>Trip duration</h2>
+            <table class="table table-hover stats-table">
+                <col width="50%">
+                <col width="50%" align="right">
+                <tbody>
+                <tr>
+                    <th scope="row">Total Travel Time</th>
+                    <td>{{ trip_duration_stats.total_trips_duration|seconds_formatter }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Average Travel Time</th>
+                    <td>{{ trip_duration_stats.avg_trip_duration|seconds_formatter }}</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <p class="text-info pull-right"><strong>This took {{ operation_time.trip_duration|float_formatter }} seconds.</strong></p>
+        </div>
+        <div class="col-lg-6">
+            <h2>User info</h2>
+            <h3>Year of birth</h3>
+            {% if user_stats.has_birth_year_stats() == true %}
+                <table class="table table-hover stats-table">
+                    <col width="50%">
+                    <col width="50%" align="right">
+                    <tbody>
+                    <tr>
+                        <th scope="row">Earliest Year of Birth</th>
+                        <td>{{ user_stats.earliest_birth_year }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Most Recent Year of Birth</th>
+                        <td>{{ user_stats.most_recent_birth_year }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Most Common Year of Birth</th>
+                        <td>{{ user_stats.most_common_birth_year }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="alert alert-warning">
+                    <p class="text-center"><strong>No data available</strong></p>
+                </div>
+            {% endif %}
+            <h3>Characteristics of the Users</h3>
+            <table class="table table-hover stats-table">
+                <col width="50%">
+                <col width="50%">
+                <tbody>
+                {% for type, count in user_stats.users_by_type.items() %}
+                    <tr>
+                        <th scope="row">{{ type }}</th>
+                        <td>{{ count|int_formatter }}</td>
+                    </tr>
+                {% endfor %}
+                {% if user_stats.users_by_gender is not none %}
+                    {% for gender, count in user_stats.users_by_gender.items() %}
+                    <tr>
+                        <th scope="row">{{ gender }}</th>
+                        <td>{{ count|int_formatter }}</td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+            <p class="text-info pull-right"><strong>This took {{ operation_time.user|float_formatter }} seconds.</strong></p>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Bikeshare{% endblock %}
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('static', filename='css/bikeshare.css')}}">
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <div class="container">
+        <h1>US bikeshare data explorer</h1>
+        <p>Hello! Let's explore some US bikeshare data related to bike share systems for three major cities in the United States—Chicago, New York City, and Washington.</p>
+    </div>
+</div>
+<div class="container">
+    {% block page_content %}{% endblock %}
+    {% include 'footer.html' %}
+</div>
+{% endblock %}

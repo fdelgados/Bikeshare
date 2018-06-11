@@ -1,0 +1,11 @@
+name: bikeshare
+
+dependencies:
+  - python=3.6
+  - numpy=1.14.2
+  - pandas=0.23.0
+  - Flask=1.0.2
+  - Jinja2=2.10
+  - pip
+  - pip:
+      - flask-bootstrap

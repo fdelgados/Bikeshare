@@ -1,0 +1,18 @@
+<div class="col-lg-12 text-right">
+    {% set next = page|int + 1 %}
+    {% set prev = page|int - 1 %}
+    <ul class="pagination">
+        <li{% if page <= 1 %} class="disabled"{% endif %}>
+            <a href="{% if page <= 1 %}#{% else %}{{ url_for('main.raw_data', city_code=city_code, month_number=month_number, day_number=day_number, page=1) }}{% endif %}">First</a>
+        </li>
+        <li{% if page <= 1 %} class="disabled"{% endif %}>
+            <a href="{% if page <= 1 %}#{% else %}{{ url_for('main.raw_data', city_code=city_code, month_number=month_number, day_number=day_number, page=prev) }}{% endif %}">Prev</a>
+        </li>
+        <li{% if page >= total_pages %} class="disabled"{% endif %}>
+            <a href="{% if page >= total_pages %}#{% else %}{{ url_for('main.raw_data', city_code=city_code, month_number=month_number, day_number=day_number, page=next) }}{% endif %}">Next</a>
+        </li>
+        <li{% if page >= total_pages %} class="disabled"{% endif %}>
+            <a href="{% if page >= total_pages %}#{% else %}{{ url_for('main.raw_data', city_code=city_code, month_number=month_number, day_number=day_number, page=total_pages) }}{% endif %}">Last</a>
+        </li>
+    </ul>
+</div>

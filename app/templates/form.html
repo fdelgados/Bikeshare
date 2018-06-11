@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="fieldset">
+            <p class="legend">Select the city, the month and the day of the week you want to analyze</p>
+            <form method="post" action="/">
+                <div class="row">
+                    <div class="form-group col-xs-4 col-md-4">
+                        <label for="city" class="control-label">Select a city</label>
+                        <select class="form-control" id="city" name="city">
+                            <option value="XX">-- Select --</option>
+                            {% for city_code, city_name in cities.items() %}
+                            <option value="{{ city_code }}" {% if city_code == selected_city %}selected="selected"{% endif %}>{{ city_name|title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group col-xs-4 col-md-4">
+                        <label for="month" class="control-label">Select a month</label>
+                        <select class="form-control" id="month" name="month">
+                            {% for month in months %}
+                            <option value="{{ loop.index0 }}" {% if loop.index0 == selected_month %}selected="selected"{% endif %}>{{ month }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group col-xs-4 col-md-4">
+                        <label for="day" class="control-label">Select a day of week</label>
+                        <select class="form-control" id="day" name="day">
+                            {% for day in days_of_week %}
+                            <option value="{{ loop.index0 }}" {% if loop.index0 == selected_day %}selected="selected"{% endif %}>{{ day }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-4 col-md-4 pull-right">
+                        <button type="submit" class="btn btn-success pull-right">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

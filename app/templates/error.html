@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+{% include "navbar.html" %}
+{% endblock %}
+
+{% block page_content %}
+<div class="alert alert-danger">
+    <strong>An error was occurred. </strong>{{ error }}
+</div>
+{% include "form.html" %}
+{% endblock %}
